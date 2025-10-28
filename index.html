@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bebop Wanted Poster</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0f1a; --panel:#0e1525; --ink:#e6ecff;
+      --cy1:#00e5ff; --cy2:#6ef3ff; --pk:#ff3cac; --yl:#ffd700; --edge:#2b3754;
+    }
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);padding:20px;}
+    .neon-panel{margin:1rem auto;width:min(95vw,960px);display:grid;gap:12px;background:linear-gradient(180deg,rgba(0,229,255,.06),rgba(255,60,172,.04)),var(--panel);border:1px solid var(--edge);border-radius:12px;padding:14px;box-shadow:0 0 0 1px rgba(0,229,255,.15) inset,0 14px 40px rgba(0,0,0,.35);position:relative;overflow:hidden;}
+    .neon-panel::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(180deg,rgba(255,255,255,.03) 0 2px,rgba(255,255,255,0) 2px 4px);pointer-events:none;}
+    .neon-field{position:relative;display:grid;gap:6px;padding:10px 10px 12px;border:1px solid #223;border-radius:10px;background:rgba(0,0,0,.2);}
+    .neon-field .label{font-family:"Orbitron",system-ui,sans-serif;font-weight:700;letter-spacing:.06em;color:var(--cy2);text-transform:uppercase;font-size:.9rem;}
+    .neon-field input[type="text"],.neon-field input[type="file"]{background:#0a1220;color:var(--ink);border:1px solid #2d3b5c;border-radius:8px;padding:.6rem .7rem;outline:none;}
+    .neon-field input:focus{border-color:var(--cy1);box-shadow:0 0 0 2px rgba(0,229,255,.25);}
+    .buttons{display:flex;gap:10px;justify-content:flex-end;}
+    .btn{border:1px solid #2d3b5c;background:#15213a;color:var(--ink);padding:.6rem 1rem;border-radius:10px;cursor:pointer;font-family:"Orbitron",sans-serif;font-weight:700;}
+    .btn.apply{border-color:var(--pk);box-shadow:0 0 12px rgba(255,60,172,.25) inset,0 0 18px rgba(255,60,172,.15);}
+    .poster{position:relative;width:min(95vw,960px);aspect-ratio:960/720;margin:2rem auto;border:1px solid var(--edge);border-radius:12px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.35);background:url('wanted-poster.png') center/cover no-repeat;}
+    .photo-box{position:absolute;left:16.875%;top:12.9167%;width:35.7292%;height:53.75%;overflow:hidden;border:2px solid rgba(0,229,255,.3);background:#000;}
+    .photo-img{width:100%;height:100%;object-fit:cover;display:block;}
+    .field{position:absolute;color:#eaf3ff;font-family:"Orbitron",system-ui,sans-serif;font-weight:700;letter-spacing:.02em;text-transform:uppercase;font-size:clamp(12px,1.5vw,18px);text-shadow:0 0 10px rgba(0,229,255,.5);}
+    #field-name{top:10%;left:55%;width:40%;font-size:clamp(14px,1.8vw,22px);}
+    #field-height{top:21%;left:66%;width:28%;}
+    #field-weight{top:28%;left:66%;width:28%;}
+    #field-age{top:35%;left:66%;width:28%;}
+    #field-doml{top:42%;left:66%;width:28%;}
+    #field-record{top:55%;left:55%;width:40%;font-size:clamp(10px,1.2vw,14px);}
+    #field-id{bottom:10%;left:17%;font-size:clamp(10px,1.3vw,16px);}
+    .bounty-badge{position:absolute;right:5%;bottom:5%;padding:.4em .8em;background:rgba(0,0,0,.7);border:3px solid rgba(255,215,0,.9);border-radius:.6em;text-align:center;line-height:1.2;backdrop-filter:blur(4px);box-shadow:0 4px 20px rgba(0,0,0,.6),inset 0 0 20px rgba(255,215,0,.3);}
+    .bounty-label{display:block;font-family:"Orbitron",system-ui,sans-serif;font-weight:900;letter-spacing:.08em;font-size:clamp(11px,1.5vw,18px);color:var(--yl);text-shadow:0 2px 4px #000;}
+    .bounty-amount{display:block;font-family:"Bebas Neue",Impact,sans-serif;font-weight:400;font-size:clamp(18px,2.6vw,34px);color:#fff;text-shadow:0 3px 8px rgba(0,0,0,.9);}
+    #downloadBtn{display:none;margin:20px auto;width:min(95vw,960px);}
+    .poster-title{position:absolute;top:3%;left:50%;transform:translateX(-50%);font-family:"Bebas Neue",Impact,sans-serif;font-size:clamp(24px,3vw,40px);color:#00e5ff;text-shadow:0 0 20px rgba(0,229,255,.8);letter-spacing:.1em;}
+  </style>
+</head>
+<body>
+  <main>
+    <form id="bountyForm" class="neon-panel">
+      <label class="neon-field">
+        <span class="label">Name</span>
+        <input type="text" id="name" placeholder="e.g., SPIKE SPIEGEL" required />
+      </label>
+      <label class="neon-field file">
+        <span class="label">Image</span>
+        <input type="file" id="selfie" accept="image/*" required />
+      </label>
+      <div class="buttons">
+        <button type="submit" class="btn apply">Generate Poster</button>
+      </div>
+    </form>
+
+    <!-- SINGLE poster container (no duplicates) -->
+    <div class="poster" id="poster" style="display:none;">
+      <div class="poster-title">WANTED CRIMINAL</div>
+
+      <div class="photo-box">
+        <img id="preview-image" class="photo-img" src="#" alt="Photo" />
+      </div>
+
+      <div id="field-name"   class="field"></div>
+      <div id="field-height" class="field"></div>
+      <div id="field-weight" class="field"></div>
+      <div id="field-age"    class="field"></div>
+      <div id="field-doml"   class="field"></div>
+      <div id="field-record" class="field"></div>
+      <div id="field-id"     class="field"></div>
+
+      <div class="bounty-badge">
+        <span class="bounty-label">BOUNTY</span>
+        <span class="bounty-amount" id="bounty-amount">0₩</span>
+      </div>
+    </div>
+
+    <button id="downloadBtn" class="btn apply">Download Poster as PNG</button>
+  </main>
+
+  <script>
+    // Preload the poster template PNG for export
+    const templateImg = new Image();
+    templateImg.src = 'wanted-poster.png'; // keep filename consistent with your actual file
+
+    // Randomizer data
+    const originList = ["Earth","Mars","Venus","Ganymede","Io","Callisto","Titan","Europa","Pluto Gate","The Asteroid Belt","Tharsis City (Mars)","Alba City (Mars)","Freedom Port (Ganymede)","Blue Crow (Venus)","TJ (Io colony)","Space Gate Ring","Tijuana Space Colony","Calisto's Criminal Syndicate Sector","Ganymede Agricultural Zone","Titan's Mining District","Mars Colony Prime","Proxima b","Andromeda Galaxy","Ceres","The Horsehead Nebula","TRAPPIST-1e","Sagittarius A*","Titan Research Outpost","Kepler-452b","Io Lava Sea Station","New Caprica","Reach","Arrakis","The Citadel","Coruscant","LV-426","Pandora","Gallifrey","Mandalore","Namek","Krypton"];
+    const reasonPhrases = ["Losing their vape","For being too prideful","For being queer","For not registering","For not checking in","Being an energy drink addict","Trying to check in late","Being a picky eater","Being a short masc","Sleeping in past 12","Going to bed after sunrise","Staying with toxic partner","Going back to toxic ex","Being ginormous","Being pick me","Not listening to music","Being a performative masc","Being friends with ex","Not drinking water","Not eating","Dressing like a bum","Being performative male coded","Looking like you own a labubu","Loving your job","Being an alcoholic","Drinking black coffee","Being unc","Looking like a heterosexual","Party hopping"];
+
+    // Elements
+    const selfieInput = document.getElementById('selfie');
+    const previewImage = document.getElementById('preview-image');
+    const form = document.getElementById('bountyForm');
+    const posterDiv = document.getElementById('poster');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    // Helpers
+    const rand = max => Math.floor(Math.random()*max);
+    const genID = () => Array.from({length:10},()=> "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"[rand(36)]).join('');
+    const genBounty = () => { const r=rand(1000); return (r%3===0)?rand(300):(r%3===1)?rand(1000)*100:rand(1000)*100000; };
+    const fmtBounty = b => b.toLocaleString() + '₩';
+
+    // Photo preview
+    selfieInput.addEventListener('change', e=>{
+      const file = e.target.files[0];
+      if(!file){ previewImage.style.display='none'; return; }
+      if(!file.type.startsWith('image/')){ alert('Please select a valid image file.'); return; }
+      const reader = new FileReader();
+      reader.onload = ev => { previewImage.src = ev.target.result; previewImage.style.display='block'; };
+      reader.readAsDataURL(file);
+    });
+
+    // Generate
+    form.addEventListener('submit', e=>{
+      e.preventDefault();
+      if(!previewImage.src || previewImage.src==='#'){ alert('Please upload a photo first.'); return; }
+
+      const name = document.getElementById('name').value.toUpperCase();
+      const age = rand(100);
+      const heightFt = rand(9);
+      const heightIn = rand(12);
+      const weight = rand(300);
+      const origin = originList[rand(originList.length)];
+      const reason = reasonPhrases[rand(reasonPhrases.length)];
+      const bounty = genBounty();
+      const id = genID();
+
+      document.getElementById('field-name').textContent   = name;
+      document.getElementById('field-height').textContent = `HEIGHT: ${heightFt}'${heightIn}"`;
+      document.getElementById('field-weight').textContent = `WEIGHT: ${weight} lbs`;
+      document.getElementById('field-age').textContent    = `AGE: ${age}`;
+      document.getElementById('field-doml').textContent   = `DOML: ${origin}`;
+      document.getElementById('field-record').textContent = `CRIMINAL RECORD: ${reason}`;
+      document.getElementById('field-id').textContent     = `ID no. ${id}`;
+      document.getElementById('bounty-amount').textContent = fmtBounty(bounty);
+
+      posterDiv.style.display='block';
+      downloadBtn.style.display='block';
+      posterDiv.scrollIntoView({behavior:'smooth',block:'center'});
+    });
+
+    // Download (draw template PNG first, then photo + text)
+    downloadBtn.addEventListener('click', async ()=>{
+      if (document.fonts && document.fonts.ready) { try { await document.fonts.ready; } catch {} }
+
+      const canvas = document.createElement('canvas');
+      canvas.width = 960;  // match your template aspect
+      canvas.height = 720;
+      const ctx = canvas.getContext('2d');
+
+      const drawAll = () => {
+        // Template background
+        ctx.drawImage(templateImg, 0, 0, canvas.width, canvas.height);
+
+        // Photo (cover-fit into the .photo-box)
+        const img = new Image();
+        img.onload = () => {
+          const photoX = canvas.width * 0.16875;
+          const photoY = canvas.height * 0.129167;
+          const photoW = canvas.width * 0.357292;
+          const photoH = canvas.height * 0.5375;
+
+          const {sx,sy,sw,sh} = coverCrop(img.width, img.height, photoW, photoH);
+          ctx.save(); ctx.beginPath(); ctx.rect(photoX, photoY, photoW, photoH); ctx.clip();
+          ctx.drawImage(img, sx, sy, sw, sh, photoX, photoY, photoW, photoH);
+          ctx.restore();
+
+          // Title
+          ctx.font = 'bold 40px "Bebas Neue", Impact, sans-serif';
+          ctx.fillStyle = '#00e5ff';
+          ctx.textAlign = 'center';
+          ctx.shadowColor = 'rgba(0, 229, 255, 0.8)'; ctx.shadowBlur = 20;
+          ctx.fillText('WANTED CRIMINAL', canvas.width/2, 40);
+          ctx.shadowBlur = 0;
+
+          // Fields
+          const fields = [
+            { el:'field-name',   x:0.55, y:0.10, size:22 },
+            { el:'field-height', x:0.66, y:0.21, size:18 },
+            { el:'field-weight', x:0.66, y:0.28, size:18 },
+            { el:'field-age',    x:0.66, y:0.35, size:18 },
+            { el:'field-doml',   x:0.66, y:0.42, size:18 },
+            { el:'field-record', x:0.55, y:0.55, size:14 },
+            { el:'field-id',     x:0.17, y:0.90, size:16 },
+          ];
+          ctx.fillStyle = '#eaf3ff';
+          ctx.textAlign = 'left';
+          ctx.shadowColor = 'rgba(0, 229, 255, 0.5)'; ctx.shadowBlur = 10;
+          for (const f of fields) {
+            ctx.font = `bold ${f.size}px "Orbitron", Arial, sans-serif`;
+            ctx.fillText(document.getElementById(f.el).textContent, Math.round(canvas.width*f.x), Math.round(canvas.height*f.y));
+          }
+          ctx.shadowBlur = 0;
+
+          // Bounty badge
+          const badgeX = canvas.width*0.75, badgeY = canvas.height*0.85, badgeW=180, badgeH=80;
+          roundRect(ctx, badgeX, badgeY, badgeW, badgeH, 10, 'rgba(0,0,0,0.7)', 'rgba(255,215,0,0.9)');
+          ctx.textAlign='center';
+          ctx.font='bold 18px "Orbitron", sans-serif'; ctx.fillStyle='#ffd700';
+          ctx.fillText('BOUNTY', badgeX + badgeW/2, badgeY + 25);
+          ctx.font='bold 34px "Bebas Neue", Impact, sans-serif'; ctx.fillStyle='#fff';
+          ctx.fillText(document.getElementById('bounty-amount').textContent, badgeX + badgeW/2, badgeY + 60);
+
+          // Download
+          const link = document.createElement('a');
+          link.download = 'bebop-wanted-poster.png';
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+        };
+        img.src = document.getElementById('preview-image').src;
+      };
+
+      if (templateImg.complete) drawAll();
+      else {
+        templateImg.onload = drawAll;
+        templateImg.onerror = ()=>alert('Could not load wanted-poster.png. Put it next to your HTML.');
+      }
+
+      function coverCrop(srcW, srcH, dstW, dstH){
+        const srcRatio = srcW/srcH, dstRatio = dstW/dstH;
+        let sw, sh, sx, sy;
+        if (srcRatio > dstRatio){ sh = srcH; sw = Math.round(dstRatio*sh); sx = Math.round((srcW-sw)/2); sy = 0; }
+        else { sw = srcW; sh = Math.round(sw/dstRatio); sx = 0; sy = Math.round((srcH-sh)/2); }
+        return {sx,sy,sw,sh};
+      }
+      function roundRect(ctx,x,y,w,h,r,fill,stroke){
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+        ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+        ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+        ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y); ctx.closePath();
+        ctx.shadowBlur=20; ctx.shadowColor='rgba(0,0,0,0.6)';
+        ctx.fillStyle=fill; ctx.strokeStyle=stroke; ctx.lineWidth=3;
+        ctx.fill(); ctx.stroke(); ctx.restore();
+      }
+    });
+  </script>
+</body>
+</html>
