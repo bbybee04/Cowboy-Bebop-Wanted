@@ -95,6 +95,6 @@ class Randomizer {
     getHeightIn() { return this.heightIn; }*/
 }
 
-
+/*
 const r = new Randomizer();
-console.log(r.setName(), r.setAge(), r.setBounty(), r.setHeightFt(), r.setHeightIn(), r.setID(), r.setOrigin(), r.setWeight());
+console.log(r.setName(), r.setAge(), r.setBounty(), r.setHeightFt(), r.setHeightIn(), r.setID(), r.setOrigin(), r.setWeight());*/
