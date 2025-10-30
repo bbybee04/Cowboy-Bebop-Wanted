@@ -79,6 +79,8 @@
     <button id="downloadBtn" class="btn apply">Download Poster as PNG</button>
   </main>
 
+  <script src="Randomizer.js"></script>
+
   <script>
     // Preload the poster template PNG for export
     const templateImg = new Image();
@@ -97,11 +99,11 @@
     const posterDiv = document.getElementById('poster');
     const downloadBtn = document.getElementById('downloadBtn');
 
-    /*// Helpers
-    const rand = max => Math.floor(Math.random()*max);
+    // Helpers
+    const rand = max => Math.floor(Math.random()*max);/*
     const genID = () => Array.from({length:10},()=> "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"[rand(36)]).join('');
     const genBounty = () => { const r=rand(1000); return (r%3===0)?rand(300):(r%3===1)?rand(1000)*100:rand(1000)*100000; };
-    const fmtBounty = b => b.toLocaleString() + '₩';*/
+    */const fmtBounty = b => b.toLocaleString() + '₩';
 
     // Photo preview
     selfieInput.addEventListener('change', e=>{
