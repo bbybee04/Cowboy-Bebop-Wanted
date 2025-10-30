@@ -84,10 +84,12 @@
     const templateImg = new Image();
     templateImg.src = 'wanted-poster.png'; // keep filename consistent with your actual file
 
-    // Randomizer data
-    const originList = ["Earth","Mars","Venus","Ganymede","Io","Callisto","Titan","Europa","Pluto Gate","The Asteroid Belt","Tharsis City (Mars)","Alba City (Mars)","Freedom Port (Ganymede)","Blue Crow (Venus)","TJ (Io colony)","Space Gate Ring","Tijuana Space Colony","Calisto's Criminal Syndicate Sector","Ganymede Agricultural Zone","Titan's Mining District","Mars Colony Prime","Proxima b","Andromeda Galaxy","Ceres","The Horsehead Nebula","TRAPPIST-1e","Sagittarius A*","Titan Research Outpost","Kepler-452b","Io Lava Sea Station","New Caprica","Reach","Arrakis","The Citadel","Coruscant","LV-426","Pandora","Gallifrey","Mandalore","Namek","Krypton"];
+    /*// Randomizer data
+    const originList = ["Earth","Mars","Venus","Ganymede","Io","Callisto","Titan","Europa","Pluto Gate","The Asteroid Belt","Tharsis City (Mars)","Alba City (Mars)","Freedom Port (Ganymede)","Blue Crow (Venus)","TJ (Io colony)","Space Gate Ring","Tijuana Space Colony","Calisto's Criminal Syndicate Sector","Ganymede Agricultural Zone","Titan's Mining District","Mars Colony Prime","Proxima b","Andromeda Galaxy","Ceres","The Horsehead Nebula","TRAPPIST-1e","Sagittarius A*","Titan Research Outpost","Kepler-452b","Io Lava Sea Station","New Caprica","Reach","Arrakis","The Citadel","Coruscant","LV-426","Pandora","Gallifrey","Mandalore","Namek","Krypton"];*/
     const reasonPhrases = ["Losing their vape","For being too prideful","For being queer","For not registering","For not checking in","Being an energy drink addict","Trying to check in late","Being a picky eater","Being a short masc","Sleeping in past 12","Going to bed after sunrise","Staying with toxic partner","Going back to toxic ex","Being ginormous","Being pick me","Not listening to music","Being a performative masc","Being friends with ex","Not drinking water","Not eating","Dressing like a bum","Being performative male coded","Looking like you own a labubu","Loving your job","Being an alcoholic","Drinking black coffee","Being unc","Looking like a heterosexual","Party hopping"];
-
+    
+    const r = new Randomizer();    
+    
     // Elements
     const selfieInput = document.getElementById('selfie');
     const previewImage = document.getElementById('preview-image');
@@ -95,11 +97,11 @@
     const posterDiv = document.getElementById('poster');
     const downloadBtn = document.getElementById('downloadBtn');
 
-    // Helpers
+    /*// Helpers
     const rand = max => Math.floor(Math.random()*max);
     const genID = () => Array.from({length:10},()=> "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"[rand(36)]).join('');
     const genBounty = () => { const r=rand(1000); return (r%3===0)?rand(300):(r%3===1)?rand(1000)*100:rand(1000)*100000; };
-    const fmtBounty = b => b.toLocaleString() + '₩';
+    const fmtBounty = b => b.toLocaleString() + '₩';*/
 
     // Photo preview
     selfieInput.addEventListener('change', e=>{
@@ -116,7 +118,7 @@
       e.preventDefault();
       if(!previewImage.src || previewImage.src==='#'){ alert('Please upload a photo first.'); return; }
 
-      const name = document.getElementById('name').value.toUpperCase();
+      /*const name = document.getElementById('name').value.toUpperCase();
       const age = rand(100);
       const heightFt = rand(9);
       const heightIn = rand(12);
@@ -124,8 +126,17 @@
       const origin = originList[rand(originList.length)];
       const reason = reasonPhrases[rand(reasonPhrases.length)];
       const bounty = genBounty();
-      const id = genID();
+      const id = genID();*/
 
+      const age = r.setAge();
+      const heightFt = r.setHeightFt();
+      const heightIn = r.setHeightIn();
+      const weight = r.setWeight();
+      const origin = r.setOrigin;
+      const reason = reasonPhrases[rand(reasonPhrases.length)];
+      const bounty = r.setBounty();
+      const id = r.setID();
+      
       document.getElementById('field-name').textContent   = name;
       document.getElementById('field-height').textContent = `HEIGHT: ${heightFt}'${heightIn}"`;
       document.getElementById('field-weight').textContent = `WEIGHT: ${weight} lbs`;
