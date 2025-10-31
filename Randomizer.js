@@ -9,6 +9,7 @@ class Randomizer {
         this.reason = "";
         this.weight = 0;
         this.name = "";
+        this.reason = "";
     }
 
     // ------------- MUTATORS (RANDOM SETTERS) ----------------
@@ -18,18 +19,15 @@ class Randomizer {
     }
 
     setOrigin() {
-        const originList = ["Earth", "Mars", "Venus", "Ganymede", "Io", "Callisto", "Titan", "Europa", "Pluto Gate", "The Asteroid Belt", "Tharsis City (Mars)", "Alba City (Mars)", 
-        "Freedom Port (Ganymede)", "Blue Crow (Venus)", "TJ (Io colony)", "Space Gate Ring", "Tijuana Space Colony", "Calisto's Criminal Syndicate Sector", 
-        "Ganymede Agricultural Zone", "Titan's Mining District", "Mars Colony Prime", "Proxima b", "Andromeda Galaxy", "Ceres", "The Horsehead Nebula", 
-        "TRAPPIST-1e", "Sagittarius A*", "Titan Research Outpost", "Kepler-452b", "Io Lava Sea Station", "New Caprica", "Reach", "Arrakis", "The Citadel", 
-        "Coruscant", "LV-426", "Pandora", "Gallifrey", "Mandalore", "Namek", "Krypton", "Risa", "Oa", "Wakanda Orbital Ring", "High Charity", 
-        "The Shire — Terraforming Colony AU", "Apokolips", "Trantor", "Helghan", "Vulcan", "Mustafar", "Caprica City", "Hoth", "Barsoom", "Naboo",
-        "Yavin IV", "Bespin Cloud City", "Kamino", "Magrathea", "Elysium Ring Habitat", "Necromunda", "Cybertron", "IO Station", "Ceres Station", "Ilus / New Terra",
-        "Titanfall IMC Frontier", "Omicron Persei 8", "The Citadel of Ricks", "Umbriel Cryo City", "Hyperion Gate Complex", "Zion Dock", "Tau Ceti e", "Andromeda Relay Township",
-        "Vega Prime", "Laputa", "The Black Mesa Orbital Lab", "Talos I", "Eden Prime", "Mustafar Mining Belt", "Terminus", "Oumuamua", "Rosetta Comet", "Eris",
-        "Phobos", "Deimos", "Valles Marineris Colony", "M87* Black Hole Ring Array", "Triangulum Galaxy", "Kepler-62f", "Wolf 359 Remnant Belt", "Lagrange-4 Trade Station",
-        "Giedi Prime", "New Vegas on Phobos", "Capella System Outpost", "Epsilon Eridani Colony", "Perseus Cluster", "Titanfall Frontier Militia Dock", "Dyson Shell Segment 14",
-        "Magellanic Cloud Frontier", "The Last Dome at the Observable Edge"];
+        const originList = ["Earth", "Mars", "Venus", "Ganymede", "Io", "Callisto", "Titan", "Europa", "Pluto Gate", "The Asteroid", "Tharsis City", "Alba City", 
+        "Freedom Port", "Blue Crow", "TJ", "Space Gate", "Tijuana Colony", "The Last Dome", "Mercury", "New Terra", "Mars Colony Prime", "Proxima b", "Andromeda", 
+        "Ceres", "The Horsehead", "TRAPPIST-1e", "Sagittarius A*", "Pluto", "Kepler-452b", "Io Lava Sea", "New Caprica", "Reach", "Arrakis", "The Citadel", 
+        "Coruscant", "LV-426", "Pandora", "Gallifrey", "Mandalore", "Namek", "Krypton", "Risa", "Oa", "Wakanda Orbital Ring", "High Charity", "The Shire", "Apokolips", 
+        "Trantor", "Helghan", "Vulcan", "Mustafar", "Caprica City", "Hoth", "Barsoom", "Naboo", "Yavin IV", "Bespin Cloud", "Kamino", "Magrathea", "Elysium Ring", 
+        "Necromunda", "Cybertron", "IO Station", "Ceres Station", "Ilus", "Titanfall", "Omicron Persei 8", "Citadel of Ricks", "Umbriel Cryo City", 
+        "Hyperion Gate", "Zion Dock", "Tau Ceti e", "Andromeda Relay", "Vega Prime", "Laputa", "The Black Mesa", "Talos I", "Eden Prime", "Mustafar Belt", "Terminus", 
+        "Oumuamua", "Rosetta Comet", "Eris", "Phobos", "Deimos", "Valles Marineris", "M87*", "Triangulum Galaxy", "Kepler-62f", "Wolf 359 Belt", "Lagrange-4",
+        "Giedi Prime", "New Vegas", "Capella System", "Epsilon Eridani", "Perseus Cluster", "IMC Frontier", "Dyson Shell", "Magellanic Cloud", "Observable Edge"];
         this.origin = originList[Math.floor(Math.random() * originList.length)];
         return this.origin;
     }
@@ -78,12 +76,17 @@ class Randomizer {
         return this.heightIn;
     }
 
-    setName(){
+    /*setName(){
         this.name = prompt("Enter the Criminals Name: ");
         return this.name;
  
-    }
-    
+    }*/
+
+    setReason(name) {
+        const result = shufflePhrases(name);  
+        this.reason = result.combined;        
+        return this.reason;                
+    } 
     /* ------------- ACCESSORS ----------------
     getAge() { return this.age; }
     getOrigin() { return this.origin; }
@@ -97,4 +100,5 @@ class Randomizer {
 
 /*
 const r = new Randomizer();
-console.log(r.setName(), r.setAge(), r.setBounty(), r.setHeightFt(), r.setHeightIn(), r.setID(), r.setOrigin(), r.setWeight());*/
+console.log(r.setReason(), r.setAge(), r.setBounty(), r.setHeightFt(), r.setHeightIn(), r.setID(), r.setOrigin(), r.setWeight());
+*/
