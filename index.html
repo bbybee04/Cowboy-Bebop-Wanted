@@ -24,13 +24,14 @@
     .photo-box{position:absolute;left:16.875%;top:12.9167%;width:35.7292%;height:53.75%;overflow:hidden;border:2px solid rgba(0,229,255,.3);background:#000;}
     .photo-img{width:100%;height:100%;object-fit:cover;display:block;}
     .field{position:absolute;color:#eaf3ff;font-family:"Orbitron",system-ui,sans-serif;font-weight:700;letter-spacing:.02em;text-transform:uppercase;font-size:clamp(12px,1.5vw,18px);text-shadow:0 0 10px rgba(0,229,255,.5);}
-    #field-name{top:10%;left:55%;width:40%;font-size:clamp(14px,1.8vw,22px);}
-    #field-height{top:21%;left:66%;width:28%;}
-    #field-weight{top:28%;left:66%;width:28%;}
-    #field-age{top:35%;left:66%;width:28%;}
-    #field-doml{top:42%;left:66%;width:28%;}
-    #field-record{top:55%;left:55%;width:40%;font-size:clamp(10px,1.2vw,14px);}
-    #field-id{bottom:10%;left:17%;font-size:clamp(10px,1.3vw,16px);}
+    #field-name{top:9%;left:64%;width:40%;font-size:clamp(14px,1.8vw,22px);}
+    #field-height{top:23%;left:65%;width:28%;font-size:clamp(12px,1vw,13px);}
+    #field-weight{top:29%;left:70%;width:28%;font-size:clamp(12px,1vw,13px);}
+    #field-age{top:37%;left:74%;width:28%;font-size:clamp(12px,1vw,13px);}
+    #field-doml{top:41%;left:74%;width:28%;font-size:clamp(12px,1vw,13px);}
+    #field-record{top:57%;left:64%;width:40%;font-size:clamp(9px,1vw,13px);}
+    #field-id{bottom:26%;left: 40%;font-size:clamp(9px,1vw,13px);}
+    #field-idNo{bottom:28%;left: 35%;font-size:clamp(9px,1vw,13px);}
     .bounty-badge{position:absolute;right:5%;bottom:5%;padding:.4em .8em;background:rgba(0,0,0,.7);border:3px solid rgba(255,215,0,.9);border-radius:.6em;text-align:center;line-height:1.2;backdrop-filter:blur(4px);box-shadow:0 4px 20px rgba(0,0,0,.6),inset 0 0 20px rgba(255,215,0,.3);}
     .bounty-label{display:block;font-family:"Orbitron",system-ui,sans-serif;font-weight:900;letter-spacing:.08em;font-size:clamp(11px,1.5vw,18px);color:var(--yl);text-shadow:0 2px 4px #000;}
     .bounty-amount{display:block;font-family:"Bebas Neue",Impact,sans-serif;font-weight:400;font-size:clamp(18px,2.6vw,34px);color:#fff;text-shadow:0 3px 8px rgba(0,0,0,.9);}
@@ -56,7 +57,7 @@
 
     <!-- SINGLE poster container (no duplicates) -->
     <div class="poster" id="poster" style="display:none;">
-      <div class="poster-title">WANTED CRIMINAL</div>
+      <div class="poster-title"></div>
 
       <div class="photo-box">
         <img id="preview-image" class="photo-img" src="#" alt="Photo" />
@@ -69,6 +70,7 @@
       <div id="field-doml"   class="field"></div>
       <div id="field-record" class="field"></div>
       <div id="field-id"     class="field"></div>
+      <div id="field-idNo"     class="field"></div>
 
       <div class="bounty-badge">
         <span class="bounty-label">BOUNTY</span>
@@ -80,6 +82,7 @@
   </main>
 
   <script src="Randomizer.js"></script>
+  <script src="wantedPrompts.js"></script>
 
   <script>
     // Preload the poster template PNG for export
@@ -88,8 +91,8 @@
 
     /*// Randomizer data
     const originList = ["Earth","Mars","Venus","Ganymede","Io","Callisto","Titan","Europa","Pluto Gate","The Asteroid Belt","Tharsis City (Mars)","Alba City (Mars)","Freedom Port (Ganymede)","Blue Crow (Venus)","TJ (Io colony)","Space Gate Ring","Tijuana Space Colony","Calisto's Criminal Syndicate Sector","Ganymede Agricultural Zone","Titan's Mining District","Mars Colony Prime","Proxima b","Andromeda Galaxy","Ceres","The Horsehead Nebula","TRAPPIST-1e","Sagittarius A*","Titan Research Outpost","Kepler-452b","Io Lava Sea Station","New Caprica","Reach","Arrakis","The Citadel","Coruscant","LV-426","Pandora","Gallifrey","Mandalore","Namek","Krypton"];*/
-    const reasonPhrases = ["Losing their vape","For being too prideful","For being queer","For not registering","For not checking in","Being an energy drink addict","Trying to check in late","Being a picky eater","Being a short masc","Sleeping in past 12","Going to bed after sunrise","Staying with toxic partner","Going back to toxic ex","Being ginormous","Being pick me","Not listening to music","Being a performative masc","Being friends with ex","Not drinking water","Not eating","Dressing like a bum","Being performative male coded","Looking like you own a labubu","Loving your job","Being an alcoholic","Drinking black coffee","Being unc","Looking like a heterosexual","Party hopping"];
-    
+    /*const reasonPhrases = ["Losing their vape","For being too prideful","For being queer","For not registering","For not checking in","Being an energy drink addict","Trying to check in late","Being a picky eater","Being a short masc","Sleeping in past 12","Going to bed after sunrise","Staying with toxic partner","Going back to toxic ex","Being ginormous","Being pick me","Not listening to music","Being a performative masc","Being friends with ex","Not drinking water","Not eating","Dressing like a bum","Being performative male coded","Looking like you own a labubu","Loving your job","Being an alcoholic","Drinking black coffee","Being unc","Looking like a heterosexual","Party hopping"];
+    */
     const r = new Randomizer();    
     
     // Elements
@@ -136,17 +139,29 @@
       const heightIn = r.setHeightIn();
       const weight = r.setWeight();
       const origin = r.setOrigin();
-      const reason = reasonPhrases[rand(reasonPhrases.length)];
+      const reason = r.setReason(name);
       const bounty = r.setBounty();
       const id = r.setID();
       
-      document.getElementById('field-name').textContent   = name;
+      /*document.getElementById('field-name').textContent   = name;
       document.getElementById('field-height').textContent = `HEIGHT: ${heightFt}'${heightIn}"`;
       document.getElementById('field-weight').textContent = `WEIGHT: ${weight} lbs`;
       document.getElementById('field-age').textContent    = `AGE: ${age}`;
       document.getElementById('field-doml').textContent   = `DOML: ${origin}`;
       document.getElementById('field-record').textContent = `CRIMINAL RECORD: ${reason}`;
       document.getElementById('field-id').textContent     = `ID no. ${id}`;
+      document.getElementById('bounty-amount').textContent = fmtBounty(bounty);
+      document.getElementById('field-record').textContent = `${reason}<br>${reason}<br>${reason}`;*/
+
+      document.getElementById('field-name').textContent   = name;
+      document.getElementById('field-height').textContent = `${heightFt} FEET ${heightIn} INCHES`;
+      document.getElementById('field-weight').textContent = `${weight} POUNDS`;
+      document.getElementById('field-age').textContent    = `${age}`;
+      document.getElementById('field-doml').textContent   = `${origin}`;
+      //document.getElementById('field-record').textContent   = `${reason}`;
+      document.getElementById("field-record").innerHTML = `${reason}`;
+      document.getElementById('field-id').textContent     = `${id}`;
+      document.getElementById('field-idNo').textContent     = `ID no.`;
       document.getElementById('bounty-amount').textContent = fmtBounty(bounty);
 
       posterDiv.style.display='block';
@@ -197,6 +212,7 @@
             { el:'field-doml',   x:0.66, y:0.42, size:18 },
             { el:'field-record', x:0.55, y:0.55, size:14 },
             { el:'field-id',     x:0.17, y:0.90, size:16 },
+            { el:'field-idNo',   x:0.17, y:0.90, size:16 },
           ];
           ctx.fillStyle = '#eaf3ff';
           ctx.textAlign = 'left';
